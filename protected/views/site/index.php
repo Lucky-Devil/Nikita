@@ -2,19 +2,48 @@
 /* @var $this SiteController */
 
 $this->pageTitle=Yii::app()->name;
+
 ?>
+<style type="text/css">
 
-<h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
+    .game-form {
+        width:250px;
+        float:left;
+        text-align:center;
+        margin:5px;
+    }
 
-<p>Congratulations! You have successfully created your Yii application.</p>
+        .game-form img {
+            margin:5px;
+        }
 
-<p>You may change the content of this page by modifying the following two files:</p>
-<ul>
-	<li>View file: <code><?php echo __FILE__; ?></code></li>
-	<li>Layout file: <code><?php echo $this->getLayoutFile('main'); ?></code></li>
-</ul>
+    .clear {
+        clear:both;
+    }
 
-<p>For more details on how to further develop this application, please read
-the <a href="http://www.yiiframework.com/doc/">documentation</a>.
-Feel free to ask in the <a href="http://www.yiiframework.com/forum/">forum</a>,
-should you have any questions.</p>
+
+</style>
+<div id="cat_button">
+    <?
+    $this->widget('zii.widgets.CListView', array(
+        'dataProvider'=>$GameCategory,
+        'enableSorting' => false,
+        'itemView'=>'_cat_game',
+        'template' => '{items}{pager}'
+    ));
+    ?>
+</div>
+<div id="games_of_the_categories">
+    <?
+    $this->widget('zii.widgets.CListView', array(
+        'dataProvider'=>$NewGames,
+        'enableSorting' => false,
+        'itemView'=>'_game',
+        'template' => '{items}{pager}'
+    ));
+    ?>
+</div>
+
+
+
+

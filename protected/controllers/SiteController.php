@@ -27,10 +27,48 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-		// renders the view file 'protected/views/site/index.php'
-		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('index');
+        $NewGameData= new CActiveDataProvider("Game", array(
+            'criteria'=>array(
+                'condition'=>'category=1',
+                'order'=>'date DESC',
+            ),
+            'pagination'=>array(
+                'pageSize'=>10,
+            ),
+        ));
+
+        $GameCategory= new CActiveDataProvider("Category");
+
+
+		$this->render('index',array('NewGames' => $NewGameData,'GameCategory' => $GameCategory));
 	}
+
+
+    public function actionAjaxGetGamesForCategory()
+    {
+        if(Yii::app()->request->isAjaxRequest)
+        {
+            $category = Yii::app()->getRequest()->getQuery('category_games');
+            $sort = Yii::app()->getRequest()->getQuery('sort');
+            $cat_id_check = Category::model()->findByPk($category);
+            if($cat_id_check == null) throw new CHttpException(404,'Указанная категория не найдена');
+            else {
+                $data= new CActiveDataProvider("Game", array(
+                    'criteria'=>array(
+                        'condition'=>'category='.$category,
+                        'order'=>$sort.' DESC',
+                    ),
+                    'pagination'=>array(
+                        'pageSize'=>10,
+                    ),
+                ));
+
+                $this->renderPartial('AjaxGameList', array("data" => $data));
+            }
+
+        }else throw new CHttpException(404,'Что-то пошло не так...');
+
+    }
 
 	/**
 	 * This is the action to handle external exceptions.
