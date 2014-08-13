@@ -1,6 +1,6 @@
 <?php
     echo CHtml::ajaxButton ($data->name,
-        CController::createUrl('site/AjaxGetGamesForCategory',array('category_games' => $data->id,'sort' => $data->sort)),
+        CController::createUrl('site/AjaxGetGamesForCategory',array('category_games' => $data->id,'sort' => $data->sort,'how_to_sort' => $data->how_to_sort)),
             array(
                 'beforeSend' => "function(){ $('games_of_the_categories').fadeOut(); }",
                 'success' => "function(data){

@@ -50,13 +50,14 @@ class SiteController extends Controller
         {
             $category = Yii::app()->getRequest()->getQuery('category_games');
             $sort = Yii::app()->getRequest()->getQuery('sort');
+            $how_to_sort = Yii::app()->getRequest()->getQuery('how_to_sort');
             $cat_id_check = Category::model()->findByPk($category);
             if($cat_id_check == null) throw new CHttpException(404,'Указанная категория не найдена');
             else {
                 $data= new CActiveDataProvider("Game", array(
                     'criteria'=>array(
                         'condition'=>'category='.$category,
-                        'order'=>$sort.' DESC',
+                        'order'=>$sort.' '.$how_to_sort,
                     ),
                     'pagination'=>array(
                         'pageSize'=>10,
